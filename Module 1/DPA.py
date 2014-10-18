@@ -1,11 +1,9 @@
 """
 Algorithmic Thinking - Module 1
-Mark Hess
 09-07-2014
 
-Degree Distributions for graphs
-Provided Helper class for implementing efficient version
-of DPA algorithm
+Graph Basics and Random Digraphs
+Provided Helper class for implementing efficient version of DPA algorithm
 """
 
 # general imports

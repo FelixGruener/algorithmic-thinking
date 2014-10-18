@@ -1,9 +1,9 @@
 """
 Algorithmic Thinking - Module 1
-Mark Hess
 09-07-2014
 
-Degree Distributions for graphs
+Graph Basics and Random Digraphs
+Analysis of citation graphs
 Application file
 """
 

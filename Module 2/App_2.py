@@ -1,7 +1,10 @@
 """
-Application 2
+Algorithmic Thinking - Module 2
+09-21-2014
 
-Provided code for Application portion of Module 2
+Beadth-First Seach and Connected Components
+Analysis of a Computer Network
+Application File
 """
 
 # general imports
