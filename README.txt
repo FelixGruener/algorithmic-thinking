@@ -13,12 +13,12 @@ Module 2 - Breadth-First Search and Connected Components
 
 Module 3 - Divide and Conquer Method and Clustering
 	Project -> Closest Pairs and Clustering Algorithms
-	Application -> 
+	Application -> Comparison of Clustering Algorithms
 	Support: Images, Cluster Algorithm, Matplotlib Cluster Functions, Test File
 
 Module 4 - Dynamic Programming and Sequence Alignment
 	Project -> Computing Alignments of Sequences
-	Application ->
+	Application -> Applications to Genomics and Beyond
 
 Git includes all 4 modules used in the course including Project files, Application files and any additional test files and support files for completing each module.
 

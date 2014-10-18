@@ -6,14 +6,11 @@ Dynamic Programming and Sequence Alignment
 Applications to genomics and beyond
 Application File
 """
-
-DESKTOP = True
-
 import math
 import random
 import urllib2
-import matplotlib.pyplot as plt
-import Project_4 as student
+#import matplotlib.pyplot as plt
+import Project_4 as prj4
 
     
 
@@ -86,6 +83,84 @@ def read_words(filename):
     word_list = words.split('\n')
     print "Loaded a dictionary with", len(word_list), "words"
     return word_list
+
+
+def question_one():
+    """
+    Compute local alignments and sequences of Human Eyeless Protein and Fruitfly Eyeless Protein
+    """
+    scoring_matrix = read_scoring_matrix(PAM50_URL)
+    human_seq = read_protein(HUMAN_EYELESS_URL)
+    fly_seq = read_protein(FRUITFLY_EYELESS_URL)
+    align_matrix = prj4.compute_alignment_matrix(human_seq, fly_seq, scoring_matrix, False)
+    result = prj4.compute_local_alignment(human_seq, fly_seq, scoring_matrix, align_matrix)
+    return result
+
+def question_two():
+    """
+    Compute comparison of two human and fruitfly local alignment sequences and return percentage of matches between both.
+    """
+    scoring_matrix = read_scoring_matrix(PAM50_URL)
+    local_results = question_one()
+    pax_seq = read_protein(CONSENSUS_PAX_URL)
+    dash, new_human, new_fly = "-", "", ""
+    percentages = []
+
+    #remove dashes from human and fruit fly sequences
+    for char in local_results[1]:
+        if char != dash:
+            new_human += char
+    print "Old human seq: " + local_results[1]
+    print "New human seq: " + new_human
+    for char in local_results[2]:
+        if char != dash:
+            new_fly += char
+    print "Old fly seq: " + local_results[2]
+    print "New fly seq: " + new_fly
+
+    #compute alignment matrices and calculate global alignments between human, fruit and pax
+    print "Computing alignment matrices and global alignments..."
+    align_matrix = prj4.compute_alignment_matrix(new_human, pax_seq, scoring_matrix, True)
+    result_human_comp = prj4.compute_global_alignment(new_human, pax_seq, scoring_matrix, align_matrix)
+    #print result_human_comp
+    align_matrix = prj4.compute_alignment_matrix(new_fly, pax_seq, scoring_matrix, True)
+    result_fly_comp = prj4.compute_global_alignment(new_fly, pax_seq, scoring_matrix, align_matrix)
+    #print result_fly_comp
+
+    #calculate percantage of matches between human, fruit, and pax
+    matches = 0
+    for index in xrange(len(result_human_comp[2])):
+        if result_human_comp[1][index] == result_human_comp[2][index]:
+            matches += 1
+    percentages.append(matches / float(len(result_human_comp[2])))
+    matches = 0
+    for index in xrange(len(result_fly_comp[2])):
+        if result_fly_comp[1][index] == result_fly_comp[2][index]:
+            matches += 1 
+    percentages.append(matches / float(len(result_fly_comp[2])))
+
+    return percentages
+
+
+
+
+
+
+
+
+
+#print question_one()
+#print question_two()
+
+
+
+
+
+
+
+
+
+
 
 
 
