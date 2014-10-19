@@ -9,7 +9,7 @@ Application File
 import math
 import random
 import urllib2
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import Project_4 as prj4
 
     
@@ -139,19 +139,78 @@ def question_two():
             matches += 1 
     percentages.append(matches / float(len(result_fly_comp[2])))
 
+    #return the two percentages in a list
     return percentages
 
 
+def generate_null_distribution(seq_x, seq_y, scoring_matrix, num_trials):
+    """
+    Generates distribution of local alignment sequences stochastically
+    """
+    distribution = {}
 
+    #loop through num trials to calculation local alignments of random sequences
+    for trial in xrange(num_trials):
+        rand_y = list(seq_y)
+        random.shuffle(rand_y)
+        rand_y = "".join(rand_y)
+        align_matrix = prj4.compute_alignment_matrix(seq_x, rand_y, scoring_matrix, False)
+        score = prj4.compute_local_alignment(seq_x, rand_y, scoring_matrix, align_matrix)
+        if score[0] in distribution:
+            distribution[score[0]] += 1
+        else:
+            distribution[score[0]] = 1
 
+    #return unnormalized distribution of scores
+    return distribution
 
+def question_fourfive():
+    """
+    Create bar graph of distribution of random local alignments
+    """
+    #initial variables for sequences and scoring matrix
+    scoring_matrix = read_scoring_matrix(PAM50_URL)
+    human_seq = read_protein(HUMAN_EYELESS_URL)
+    fly_seq = read_protein(FRUITFLY_EYELESS_URL)
+    num_trials = 1000
+    xvals, yvals = [], []
+    total = 0
+    previously_calc_score = 875 #local alignment score previously calculated in quesiton one
+
+    #calculate distrubtion
+    print "Creating distribution..."
+    distribution = generate_null_distribution(human_seq, fly_seq, scoring_matrix, num_trials)
+    for score in distribution:
+        xvals.append(score)
+        yvals.append(distribution[score] / float(num_trials))
+        total += (score * distribution[score])
+
+    #plot results
+    print xvals, yvals
+    p1 = plt.bar(xvals, yvals)
+    plt.xlabel("Scores of Local Alignments")
+    plt.ylabel("Distribution of scores")
+    plt.title("Normal Distr. of Random Sequence Local Alignment Scores")
+    plt.show()
+
+    #calculate standard deviation and z score
+    mean = total / float(num_trials)
+    total = 0
+    for score in distribution:
+        for value in xrange(distribution[score]):
+            total += (score - mean) ** 2
+    variance = total / float(num_trials)
+    stddev = math.sqrt(variance)
+    z_score = (previously_calc_score - mean) / stddev
+
+    return mean, stddev, z_score
 
 
 
 
 #print question_one()
 #print question_two()
-
+#print question_fourfive()
 
 
 
