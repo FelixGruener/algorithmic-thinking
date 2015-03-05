@@ -1,6 +1,5 @@
-Rice University and Coursera
+Rice University (Coursera)
 Algorithmic Thinking
-Fall 2014
 
 Module 1 - Graphs Basics and Random Digraphs
 	Project -> Degree distributions for graphs
